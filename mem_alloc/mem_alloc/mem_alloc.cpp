@@ -3,21 +3,21 @@
 
 void test()
 {
-	/*
-	uint8_t* p;
-	uint8_t *l = new uint8_t (10);
-	p = l;
-	printf("%d\n", *p);
-	p = (uint8_t*)p + 1;
-	*p = 8;
-	printf("%d\n", (uint8_t)*((uint8_t*)l + 1));*/
 	Allocator a;
-	double* b;
+	double* b, *b1, *b2;
 	b = (double*)a.mem_alloc(sizeof(double));
+	b1 = (double*)a.mem_alloc(sizeof(double));
+	b2 = (double*)a.mem_alloc(sizeof(double));
 	*b = 12;
-	double* f = (double*)a.mem_alloc(sizeof(double[2]));
+	double* f = (double*)a.mem_alloc(sizeof(double[12]));
+	a.show_all();
 	a.mem_free(f);
-	b = (double*)a.mem_alloc(sizeof(double[2]));
+	a.show_all();
+	a.mem_free(b);
+	a.show_all();
+	a.mem_free(b1);
+	a.show_all();
+	a.mem_free(b2);
 	a.show_all();
 }
 
