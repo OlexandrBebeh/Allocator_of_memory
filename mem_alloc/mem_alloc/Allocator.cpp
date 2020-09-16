@@ -1,5 +1,6 @@
 #include "Allocator.h"
 #include <stdio.h>
+#include <iostream>
 
 Allocator::Allocator() {
     char* p = memory;
@@ -20,7 +21,7 @@ void Allocator::show_all() {
 
         i++;
 
-        printf("Number of block: %d; Is reserved: %d; Size: %d; Size of prev: %d\n", i, (bool)*p, *(uint16_t*)((char*)p + 1), *(uint16_t*)((char*)p + 3));
+        printf("Number of block: %d; Is reserved: %d; Size: %d; Size of prev: %d;\n", i, (bool)*p, *(uint16_t*)((char*)p + 1), *(uint16_t*)((char*)p + 3));
 
         if (*(uint16_t*)((char*)p + 1) + (char*)p >= memory + SIZE_OF_MEMORY) {
 
@@ -64,8 +65,8 @@ void Allocator::segmentation(void* addr, size_t size) {
 
 void* Allocator::mem_alloc(size_t size)
 {
-   if (size % 4 != 0) {
-       size = size + (4 - size % 4);
+   if (size % LEVEL != 0) {
+       size = size + (LEVEL - size % LEVEL);
    }
 
     char* p = memory;
@@ -89,13 +90,23 @@ void* Allocator::mem_alloc(size_t size)
 
     return nullptr;
 }
-void Allocator::mem_move(void* addr1, void* addr2) {
-    char* p = (char*)addr1 + HEADER;
+void Allocator::mem_move_to_right(void* addr1, void* addr2, int dist) {
+    char* move_from = (char*)addr1;
     char* move_to = (char*)addr2;
-    for (int i = 0; i < *(uint16_t*)((char*)addr1 + 1) - HEADER; i++) {
-        *move_to = *p;
+    for (int i = 0; i < dist; i++) {
+        *move_to = *move_from;
+        move_to--;
+        move_from--;
+    }
+}
+
+void Allocator::mem_move_to_left(void* addr1, void* addr2, int dist) {
+    char* move_from = (char*)addr1;
+    char* move_to = (char*)addr2;
+    for (int i = 0; i < dist; i++) {
+        *move_to = *move_from;
         move_to++;
-        p++;
+        move_from++;
     }
 }
 
@@ -107,48 +118,75 @@ void* Allocator::mem_realloc(void* addr, size_t size)
     }
     char *p = (char*)addr - HEADER;
 
-    if (size % 4 != 0) {
-        size = size + (4 - size % 4);
+    if (size % LEVEL != 0) {
+        size = size + (LEVEL - size % LEVEL);
     }
 
     if (size + HEADER < *(uint16_t*)(p + 1)) {
-        void* block = mem_alloc(*(uint16_t*)(p + 1) - HEADER);
-        if (block == nullptr) return nullptr;
-        mem_move(p, block );
-        *p = true;
         segmentation(((char*)p), (size_t)size + HEADER);
-        return block;
+        return addr;
     }
 
     if (size + HEADER == *(uint16_t*)(p + 1)) {
-        void* block = mem_alloc(*(uint16_t*)(p + 1) - HEADER);
-        if (block == nullptr) return nullptr;
-        mem_move(p, block);
-
-        return block;
+        return addr;
     }
 
-    if (size + HEADER <= *(uint16_t*)(p + 1) + *(uint16_t*)(p + 3)) {
-        p = p + *(uint16_t*)(p + 1);
-        if (*p == false) {
-            *p = true;
-            void* block = mem_alloc(*(uint16_t*)((char*)addr - HEADER + 1) - HEADER);
-            if (block == nullptr) return nullptr;
-            mem_move(p, block);
+    if (*(bool*)(p + *(uint16_t*)(p + 1)) == true && *(bool*)(p - *(uint16_t*)(p + 3)) == true)
+        return mem_alloc(size);
 
-            uint16_t* p_size = (uint16_t*)((char*)addr - HEADER + 1);
+    if (*(bool*)(p + *(uint16_t*)(p + 1)) == false) {
+        if (p + *(uint16_t*)((char*)p + 1) < memory + SIZE_OF_MEMORY) {
+            if (size + HEADER <= *(uint16_t*)(p + 1) + *(uint16_t*)(p + *(uint16_t*)(p + 1))) {
+                p = p + *(uint16_t*)(p + 1);
+                *p = true;
 
-            *p_size = *p_size + *(uint16_t*)((char*)p_size + *p_size);
+                char* move_from = p - 1;
+                int dist = *(uint16_t*)((char*)addr - HEADER + 1) - HEADER;
+                uint16_t* p_size = (uint16_t*)((char*)addr - HEADER + 1);
+                *p_size = *p_size + *(uint16_t*)((char*)p_size + *p_size);
 
-            if (p + *(uint16_t*)((char*)p + 1) < memory + SIZE_OF_MEMORY) {
-                p = (char*)p_size;
-                p_size = (uint16_t*)((char*)p_size + *p_size + 2);
-                *p_size = *(uint16_t*)(char*)p;
+                 if (p + *(uint16_t*)((char*)p + 1) < memory + SIZE_OF_MEMORY) {
+                   p = (char*)p_size;
+                   p_size = (uint16_t*)((char*)p_size + *p_size + 2);
+                   *p_size = *(uint16_t*)(char*)p;
+                 }
+                 p = (char*)addr - HEADER;
+                 segmentation(p, (size_t)size + HEADER);
+                 char* move_to = p - 1 + *(uint16_t*)(p + 1);
+                 
+                 mem_move_to_right(move_from, move_to,dist);
+                 return addr;
             }
-            return block;
-
         }
-        
+    }
+
+    if (*(bool*)(p - *(uint16_t*)(p + 3)) == false) {
+            if (size + HEADER <= size + HEADER <= *(uint16_t*)(p + 1) + *(uint16_t*)(p + 3)) {
+                p = p - *(uint16_t*)(p + 3);
+                *p = true;
+                char* move_from = (char*)addr;
+                uint16_t* p_size = (uint16_t*)((char*)p + 1);
+                int dist = *(uint16_t*)((char*)addr - HEADER + 1) - HEADER;
+                *p_size = *p_size + *(uint16_t*)((char*)addr + 1 - HEADER);
+                mem_move_to_left(move_from, (char*)p + HEADER, dist);
+                segmentation(p, (size_t)size + HEADER);
+
+                 return p;
+            }
+    }
+
+    if (p + *(uint16_t*)((char*)p + 1) < memory + SIZE_OF_MEMORY) {
+        if (size + HEADER <= *(uint16_t*)(p + 1) + *(uint16_t*)(p + *(uint16_t*)(p + 1)) + *(uint16_t*)(p + 3)) {
+            char* move_from = p + *(uint16_t*)(p + 1) - 1;
+            char* move_to = p - 1 + * (uint16_t*)(p + 1) + *(uint16_t*)(p + *(uint16_t*)(p + 1));
+            int dist = *(uint16_t*)(p + 1) - HEADER;
+            p = p - *(uint16_t*)(p + 3);
+            mem_free(addr);
+
+            mem_move_to_left(addr, p + HEADER, dist);
+            segmentation(p, (size_t)size + HEADER);
+            return p;
+        }
     }
     return nullptr;
 }
