@@ -11,18 +11,6 @@ Allocator::Allocator() {
     *pp = 0;
 }
 
-void Allocator::reset_inf() {
-    char* p = memory;
-    uint16_t* p_size;
-    while (true)
-    {
-        if (*(uint16_t*)((char*)p + 3) == 0) break;
-        p_size = (uint16_t*)((char*)p + 3);
-        *p_size = *(uint16_t*)((char*)p + 1 + *(uint16_t*)((char*)p + 1));
-        p = (char*)p + *(uint16_t*)((char*)p + 1);
-    }
-}
-
 void Allocator::show_all() {
     char* p = memory;
     int i = 0;
@@ -30,10 +18,14 @@ void Allocator::show_all() {
     {
 
         i++;
+
         printf("Number of block: %d; Is reserved: %d; Size: %d; Size of prev: %d\n", i, (bool)*p, *(uint16_t*)((char*)p + 1), *(uint16_t*)((char*)p + 3));
+
         if (*(uint16_t*)((char*)p + 1) + (char*)p >= memory + 1024) {
+
             break;
         }
+
         p = (char*)p + *(uint16_t*)((char*)p + 1);
     }
 

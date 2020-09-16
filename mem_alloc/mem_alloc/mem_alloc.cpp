@@ -17,12 +17,12 @@ void test()
 	*b = 12;
 	double* f = (double*)a.mem_alloc(sizeof(double[2]));
 	a.mem_free(f);
-	b = (double*)a.mem_alloc(sizeof(double));
+	b = (double*)a.mem_alloc(sizeof(double[2]));
 	a.show_all();
 }
 
 int main()
 {
 	test();
-	return;
+	return 0;
 }

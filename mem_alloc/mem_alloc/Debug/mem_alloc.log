@@ -1,0 +1,3 @@
+﻿  mem_alloc.cpp
+C:\Users\Саня\source\repos\OS\Allocator_of_memory\mem_alloc\mem_alloc\Allocator.h(16,2): warning C4091: typedef : пропускается слева от "Allocator", когда ни одна переменная не объявлена
+  mem_alloc.vcxproj -> C:\Users\Саня\source\repos\OS\Allocator_of_memory\mem_alloc\Debug\mem_alloc.exe

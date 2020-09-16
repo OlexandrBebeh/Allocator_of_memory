@@ -8,7 +8,6 @@ typedef class Allocator {
 public:
 	Allocator();
 
-	void reset_inf();
 	void show_all();
 	void new_block(void* addr, size_t size);
 	void* mem_alloc(size_t size);
