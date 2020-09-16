@@ -15,15 +15,6 @@ All blocks are leveling by 4. You can change it or take it off.
 Functions:
 void* mem_alloc(size_t size) – create block of given size and return pointer to the memory you can use. If block has more than enough memory divine block by 2. If there is no block with enough memory return nullptr.
  
-Code
-
-Result
-
 void mem_free(void* addr) – mark this block as free. If left or right blocks free so, then unites them.
- code
-Result
-As you can see there was 5 blocks but after free all memory them unite in one.
 	
 void* mem_realloc(void* addr, size_t size) – change size of chosen block, can make it smaller or bigger(if neighboring blocks access to do it). Old memory moves to new block. If there not enough memory for moving of old block returns nullptr. If change of size successful returns pointer to the new block with old data. 
-Code
-Result
