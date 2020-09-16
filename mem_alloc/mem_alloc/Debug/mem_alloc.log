@@ -1,3 +1,8 @@
-﻿  mem_alloc.cpp
-C:\Users\Саня\source\repos\OS\Allocator_of_memory\mem_alloc\mem_alloc\Allocator.h(16,2): warning C4091: typedef : пропускается слева от "Allocator", когда ни одна переменная не объявлена
+﻿  Allocator.cpp
+C:\Users\Саня\source\repos\OS\Allocator_of_memory\mem_alloc\mem_alloc\Allocator.h(18,2): warning C4091: typedef : пропускается слева от "Allocator", когда ни одна переменная не объявлена
+C:\Users\Саня\source\repos\OS\Allocator_of_memory\mem_alloc\mem_alloc\Allocator.cpp(41,47): warning C4267: =: преобразование из "size_t" в "uint16_t"; возможна потеря данных
+C:\Users\Саня\source\repos\OS\Allocator_of_memory\mem_alloc\mem_alloc\Allocator.cpp(43,15): warning C4267: =: преобразование из "size_t" в "uint16_t"; возможна потеря данных
+C:\Users\Саня\source\repos\OS\Allocator_of_memory\mem_alloc\mem_alloc\Allocator.cpp(61,19): warning C4267: =: преобразование из "size_t" в "uint16_t"; возможна потеря данных
+C:\Users\Саня\source\repos\OS\Allocator_of_memory\mem_alloc\mem_alloc\Allocator.cpp(72,15): warning C4101: p_size: неиспользованная локальная переменная
+C:\Users\Саня\source\repos\OS\Allocator_of_memory\mem_alloc\mem_alloc\Allocator.cpp(131,23): warning C4018: <=: несоответствие типов со знаком и без знака
   mem_alloc.vcxproj -> C:\Users\Саня\source\repos\OS\Allocator_of_memory\mem_alloc\Debug\mem_alloc.exe
