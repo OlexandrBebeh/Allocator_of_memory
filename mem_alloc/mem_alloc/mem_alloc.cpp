@@ -33,7 +33,11 @@ void test()
 	a.show_all();
 	double* m = (double*)a.mem_realloc(b1, sizeof(double[5]));
 	a.show_all();
-	int *l = (int*)a.mem_realloc(b2, sizeof(int[40]));
+	int *l = (int*)a.mem_realloc(b2, (size_t)954);
+	a.show_all();
+	int *t = (int*)a.mem_realloc(nullptr, sizeof(int));
+	a.show_all();
+	int* h = (int*)a.mem_realloc(nullptr, sizeof(int));
 	a.show_all();
 }
 

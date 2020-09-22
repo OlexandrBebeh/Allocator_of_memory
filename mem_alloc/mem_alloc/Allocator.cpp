@@ -81,7 +81,7 @@ void* Allocator::mem_alloc(size_t size)
         }
         if (*p == false && *(uint16_t*)((char*)p + 1) > size + HEADER) {
 
-            segmentation(p, (size_t)size+ HEADER);
+            segmentation(p, (size_t)size + HEADER);
             return p + HEADER;
         }
         p = (char*)p + *(uint16_t*)((char*)p + 1);
@@ -136,7 +136,7 @@ void* Allocator::mem_realloc(void* addr, size_t size)
 
     if (*(bool*)(p + *(uint16_t*)(p + 1)) == false) {
         if (p + *(uint16_t*)((char*)p + 1) < memory + SIZE_OF_MEMORY) {
-            if (size + HEADER <= *(uint16_t*)(p + 1) + *(uint16_t*)(p + *(uint16_t*)(p + 1))) {
+            if (size + HEADER <= *(uint16_t*)(p + 1) + *(uint16_t*)(p + 1 + *(uint16_t*)(p + 1))) {
                 p = p + *(uint16_t*)(p + 1);
                 *p = true;
 
@@ -161,7 +161,7 @@ void* Allocator::mem_realloc(void* addr, size_t size)
     }
 
     if (*(bool*)(p - *(uint16_t*)(p + 3)) == false) {
-            if (size + HEADER <= size + HEADER <= *(uint16_t*)(p + 1) + *(uint16_t*)(p + 3)) {
+            if (size + HEADER  <= *(uint16_t*)(p + 1) + *(uint16_t*)(p + 3)) {
                 p = p - *(uint16_t*)(p + 3);
                 *p = true;
                 char* move_from = (char*)addr;
@@ -176,7 +176,7 @@ void* Allocator::mem_realloc(void* addr, size_t size)
     }
 
     if (p + *(uint16_t*)((char*)p + 1) < memory + SIZE_OF_MEMORY) {
-        if (size + HEADER <= *(uint16_t*)(p + 1) + *(uint16_t*)(p + *(uint16_t*)(p + 1)) + *(uint16_t*)(p + 3)) {
+        if (size + HEADER <= *(uint16_t*)(p + 1) + *(uint16_t*)(p + 1 + *(uint16_t*)(p + 1)) + *(uint16_t*)(p + 3)) {
             char* move_from = p + *(uint16_t*)(p + 1) - 1;
             char* move_to = p - 1 + * (uint16_t*)(p + 1) + *(uint16_t*)(p + *(uint16_t*)(p + 1));
             int dist = *(uint16_t*)(p + 1) - HEADER;

@@ -1,10 +1,3 @@
-﻿  Allocator.cpp
+﻿  mem_alloc.cpp
 C:\Users\Саня\source\repos\OS\Allocator_of_memory\mem_alloc\mem_alloc\Allocator.h(22,2): warning C4091: typedef : пропускается слева от "Allocator", когда ни одна переменная не объявлена
-C:\Users\Саня\source\repos\OS\Allocator_of_memory\mem_alloc\mem_alloc\Allocator.cpp(42,47): warning C4267: =: преобразование из "size_t" в "uint16_t"; возможна потеря данных
-C:\Users\Саня\source\repos\OS\Allocator_of_memory\mem_alloc\mem_alloc\Allocator.cpp(44,15): warning C4267: =: преобразование из "size_t" в "uint16_t"; возможна потеря данных
-C:\Users\Саня\source\repos\OS\Allocator_of_memory\mem_alloc\mem_alloc\Allocator.cpp(62,19): warning C4267: =: преобразование из "size_t" в "uint16_t"; возможна потеря данных
-C:\Users\Саня\source\repos\OS\Allocator_of_memory\mem_alloc\mem_alloc\Allocator.cpp(73,15): warning C4101: p_size: неиспользованная локальная переменная
-C:\Users\Саня\source\repos\OS\Allocator_of_memory\mem_alloc\mem_alloc\Allocator.cpp(139,31): warning C4018: <=: несоответствие типов со знаком и без знака
-C:\Users\Саня\source\repos\OS\Allocator_of_memory\mem_alloc\mem_alloc\Allocator.cpp(164,92): warning C4804: <=: небезопасное использование типа "bool" в операции
-C:\Users\Саня\source\repos\OS\Allocator_of_memory\mem_alloc\mem_alloc\Allocator.cpp(179,27): warning C4018: <=: несоответствие типов со знаком и без знака
   mem_alloc.vcxproj -> C:\Users\Саня\source\repos\OS\Allocator_of_memory\mem_alloc\Debug\mem_alloc.exe
