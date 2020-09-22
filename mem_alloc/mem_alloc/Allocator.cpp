@@ -63,6 +63,26 @@ void Allocator::segmentation(void* addr, size_t size) {
     }
 }
 
+void Allocator::mem_move_to_right(void* addr1, void* addr2, int dist) {
+    char* move_from = (char*)addr1;
+    char* move_to = (char*)addr2;
+    for (int i = 0; i < dist; i++) {
+        *move_to = *move_from;
+        move_to--;
+        move_from--;
+    }
+}
+
+void Allocator::mem_move_to_left(void* addr1, void* addr2, int dist) {
+    char* move_from = (char*)addr1;
+    char* move_to = (char*)addr2;
+    for (int i = 0; i < dist; i++) {
+        *move_to = *move_from;
+        move_to++;
+        move_from++;
+    }
+}
+
 void* Allocator::mem_alloc(size_t size)
 {
    if (size % LEVEL != 0) {
@@ -89,25 +109,6 @@ void* Allocator::mem_alloc(size_t size)
     }
 
     return nullptr;
-}
-void Allocator::mem_move_to_right(void* addr1, void* addr2, int dist) {
-    char* move_from = (char*)addr1;
-    char* move_to = (char*)addr2;
-    for (int i = 0; i < dist; i++) {
-        *move_to = *move_from;
-        move_to--;
-        move_from--;
-    }
-}
-
-void Allocator::mem_move_to_left(void* addr1, void* addr2, int dist) {
-    char* move_from = (char*)addr1;
-    char* move_to = (char*)addr2;
-    for (int i = 0; i < dist; i++) {
-        *move_to = *move_from;
-        move_to++;
-        move_from++;
-    }
 }
 
 void* Allocator::mem_realloc(void* addr, size_t size)

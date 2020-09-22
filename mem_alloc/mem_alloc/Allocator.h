@@ -12,6 +12,7 @@ typedef class Allocator {
 	void mem_move_to_right(void* addr1, void* addr2, int dist);
 	void mem_move_to_left(void* addr1, void* addr2, int dist);
 public:
+
 	Allocator();
 
 	void show_all();

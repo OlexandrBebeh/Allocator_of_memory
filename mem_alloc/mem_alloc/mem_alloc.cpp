@@ -1,9 +1,13 @@
 ﻿#include <iostream>
 #include "Allocator.h"
+using namespace std;
 
 void test()
 {
 	Allocator a;
+
+	a.show_all();
+
 	double* b,*b1,*b2;
 	b = (double*)a.mem_alloc(sizeof(double));
 	b1 = (double*)a.mem_alloc(sizeof(double[4]));
@@ -21,13 +25,13 @@ void test()
 	a.mem_free(b2);
 	a.show_all();
 
+
+	cout << "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n";
+
+
 	b = (double*)a.mem_realloc(nullptr, sizeof(double[4]));
 	b1 = (double*)a.mem_realloc(nullptr, sizeof(double[3]));
 	b2 = (double*)a.mem_realloc(nullptr, sizeof(double[3]));
-	b[0] = 101663;
-	b[1] = 102134;
-	b[2] = 124560;
-	b[3] = 123401;
 	a.show_all();
 	a.mem_free(b);
 	a.show_all();
