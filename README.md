@@ -1,6 +1,6 @@
 # Allocator_of_memory
 
-##Allocator of memory on C++ <h2> tag
+## Allocator of memory on C++ 
 
 The class allocator which can select data in heap, with size that you say. I try to use minimum of variables, so you can see there many operations with pointers and access to them.
 Memory is divided on **blocks**, every block contains **HEADER** and **memory**. **HEADER** has fixed size 8 bytes. That mean if need to allocate *8* bytes of memory actually needs *16* bytes free memory in one block.
@@ -29,12 +29,12 @@ If there not enough memory for moving of old block returns nullptr.
 If change of size successful returns pointer to the new block with old data. 
 If `addr = nullptr` work as `mem_alloc`.
 
-##Usege <h3> tag
+## Usege
 
 To use the algorithm, open the file in any IDE with C++ support.
 Describe your use cases in main() function or implement it in separate function, then calling it in main() function.
 
-##Examples <h3> tag
+## Examples
 
 > I'm use function `show_all()` to demonstrate you state of blocks.
 
